@@ -27,6 +27,11 @@ const IndexPage = ({ data }) => {
               <p>{node.excerpt}</p>
             </div>
           ))}
+        <p>
+          Use the <Link to="https://github.com/lyoshenka/blogchain">
+            source
+          </Link>, Luke!
+        </p>
       </div>
   )
 }
