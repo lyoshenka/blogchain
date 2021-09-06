@@ -9,7 +9,7 @@ const HeaderDate = styled.h3`
 `
 
 // STYLE THE TAGS INSIDE THE MARKDOWN HERE
-const MarkdownContent = styled.div`
+const MarkdownContent = styled.section`
   pre > code {
     width: inherit;
   }
@@ -18,14 +18,14 @@ const MarkdownContent = styled.div`
 export default ({ data }) => {
   const post = data.markdownRemark
   return (
-      <div>
+      <article>
         <Link to="/" style={{fontSize: "1.6rem"}}>← Back home</Link>
         <h1>{post.frontmatter.title}</h1>
         <HeaderDate>
           {post.frontmatter.date} - {post.fields.readingTime.text}
         </HeaderDate>
         <MarkdownContent dangerouslySetInnerHTML={{ __html: post.html }} />
-      </div>
+      </article>
   )
 }
 

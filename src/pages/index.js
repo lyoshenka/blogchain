@@ -10,6 +10,16 @@ const IndexPage = ({ data }) => {
   return (
       <div>
         <h1 style={{marginBottom: "4rem"}}>{data.site.siteMetadata.title}</h1>
+        <section>
+          <p>
+            This blog is built using <Link to="https://lbry.com">LBRY</Link> and {' '}
+            <Link to="https://www.gatsbyjs.com/">Gatsby</Link>.
+            All posts are markdown files from {' '}
+            <Link to="https://odysee.com/@grin">my channel</Link>. Here's the {' '}
+            <Link to="https://github.com/lyoshenka/blogchain">source</Link>.
+          </p>
+        </section>
+
         {data.allMarkdownRemark.edges
           .filter(({ node }) => {
             const rawDate = node.frontmatter.rawDate
@@ -17,7 +27,7 @@ const IndexPage = ({ data }) => {
             return date < new Date()
           })
           .map(({ node }) => (
-            <div key={node.id} style={{marginBottom: "3rem"}}>
+            <section key={node.id}>
               <Link to={node.fields.slug}>
                 <PostTitle>{node.frontmatter.title}</PostTitle>
               </Link>
@@ -25,13 +35,8 @@ const IndexPage = ({ data }) => {
                 {node.frontmatter.date} - {node.fields.readingTime.text}
               </div>
               <p>{node.excerpt}</p>
-            </div>
+            </section>
           ))}
-        <p>
-          Use the <Link to="https://github.com/lyoshenka/blogchain">
-            source
-          </Link>, Luke!
-        </p>
       </div>
   )
 }
