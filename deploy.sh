@@ -3,45 +3,16 @@ set -o errexit #abort if any command fails
 me=$(basename "$0")
 
 help_message="\
-Usage: $me [-c FILE] [<options>]
+Usage: $me [<options>]
 Deploy generated files to a git branch.
 
 Options:
 
   -h, --help               Show this help information.
   -v, --verbose            Increase verbosity. Useful for debugging.
-  -e, --allow-empty        Allow deployment of an empty directory.
-  -m, --message MESSAGE    Specify the message used when committing on the
-                           deploy branch.
-  -n, --no-hash            Don't append the source commit's hash to the deploy
-                           commit's message.
-  -c, --config-file PATH   Override default & environment variables' values
-                           with those in set in the file at 'PATH'. Must be the
-                           first option specified.
-
-Variables:
-
-  GIT_DEPLOY_DIR      Folder path containing the files to deploy.
-  GIT_DEPLOY_BRANCH   Commit deployable files to this branch.
-  GIT_DEPLOY_REPO     Push the deploy branch to this repository.
-
-These variables have default values defined in the script. The defaults can be
-overridden by environment variables. Any environment variables are overridden
-by values set in a '.env' file (if it exists), and in turn by those set in a
-file specified by the '--config-file' option."
+  -e, --allow-empty        Allow deployment of an empty directory."
 
 parse_args() {
-	# Set args from a local environment file.
-	if [ -e ".env" ]; then
-		source .env
-	fi
-
-	# Set args from file specified on the command-line.
-	if [[ $1 = "-c" || $1 = "--config-file" ]]; then
-		source "$2"
-		shift 2
-	fi
-
 	# Parse arg flags
 	# If something is exposed as an environment variable, set/overwrite it
 	# here. Otherwise, set/overwrite the internal variable instead.
@@ -55,12 +26,6 @@ parse_args() {
 		elif [[ $1 = "-e" || $1 = "--allow-empty" ]]; then
 			allow_empty=true
 			shift
-		elif [[ ( $1 = "-m" || $1 = "--message" ) && -n $2 ]]; then
-			commit_message=$2
-			shift 2
-		elif [[ $1 = "-n" || $1 = "--no-hash" ]]; then
-			GIT_DEPLOY_APPEND_HASH=false
-			shift
 		else
 			break
 		fi
@@ -70,18 +35,14 @@ parse_args() {
 	# vars should be declared here, with sane defaults if applicable.
 
 	# Source directory & target branch.
-	deploy_directory=${GIT_DEPLOY_DIR:-public}
-	deploy_branch=${GIT_DEPLOY_BRANCH:-gh-pages}
-
-	#if no user identity is already set in the current git environment, use this:
-	default_username=${GIT_DEPLOY_USERNAME:-deploy.sh}
-	default_email=${GIT_DEPLOY_EMAIL:-}
+	deploy_directory=public
+	deploy_branch=gh-pages
 
 	#repository to deploy to. must be readable and writable.
-	repo=${GIT_DEPLOY_REPO:-origin}
+	repo=origin
 
 	#append commit hash to the end of message by default
-	append_hash=${GIT_DEPLOY_APPEND_HASH:-true}
+	append_hash=true
 }
 
 main() {
@@ -128,6 +89,9 @@ main() {
 		enable_expanded_output
 	fi
 
+  # tell Github Pages to deploy source as is, without using Jekyll
+  touch "$deploy_directory/.nojekyll"
+
 	# check if deploy_branch exists locally
 	if git show-ref --verify --quiet "refs/heads/$deploy_branch"
 	then incremental_deploy
@@ -164,7 +128,6 @@ incremental_deploy() {
 }
 
 commit+push() {
-	set_user_id
 	git --work-tree "$deploy_directory" commit -m "$commit_message"
 
 	disable_expanded_output
@@ -186,15 +149,6 @@ disable_expanded_output() {
 	if [ $verbose ]; then
 		set +o xtrace
 		set -o verbose
-	fi
-}
-
-set_user_id() {
-	if [[ -z `git config user.name` ]]; then
-		git config user.name "$default_username"
-	fi
-	if [[ -z `git config user.email` ]]; then
-		git config user.email "$default_email"
 	fi
 }
 
