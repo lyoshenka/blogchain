@@ -4,6 +4,7 @@ A demo for how you can build a blog using LBRY. All the data is stored on LBRY. 
 the LBRY daemon to build the site.
 
 ```
-npm install
-npx gatsby develop
+lbrynet start
+yarn install
+./dev.sh
 ```

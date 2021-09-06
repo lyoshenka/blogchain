@@ -10,6 +10,7 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-lbry`,
+      // resolve: `../lbry/gatsby-source-lbry`,
       options: {
         channel: `@grin`,
       },
