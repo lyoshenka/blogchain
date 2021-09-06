@@ -70,6 +70,9 @@ main() {
 		
 	previous_branch=`git rev-parse --abbrev-ref HEAD`
 
+  # build the site
+  npx gatsby build --prefix-paths
+
 	if [ ! -d "$deploy_directory" ]; then
 		echo "Deploy directory '$deploy_directory' does not exist. Aborting." >&2
 		return 1

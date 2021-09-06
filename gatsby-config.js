@@ -1,5 +1,5 @@
 module.exports = {
-  pathPrefix: `/`,
+  pathPrefix: `/blogchain`, // for github pages
   siteMetadata: {
     title: `Blogging via LBRY`,
     subtitle: `blogging via LBRY`,

@@ -12,6 +12,6 @@ yarn install
 To deploy
 
 ```bash
-# FIRST commit any changes. then
-npx gatsby build && ./deploy.sh
+# first commit your changes. then
+./deploy.sh
 ```
