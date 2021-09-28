@@ -5535,10 +5535,10 @@ gatsby-remark-reading-time@^1.1.0:
   dependencies:
     reading-time "^1.1.3"
 
-gatsby-source-lbry@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/gatsby-source-lbry/-/gatsby-source-lbry-1.0.2.tgz#f2db67cd6295478fe97497e9c06518812e3fd162"
-  integrity sha512-Y7Eiq3mKNoFU+tXRAPVjfVeOST/c5Xfoti93Jb6eGmAdtM0x+aLx+kNHKW+ktOPFu63VSRAkgeFA5afXONirww==
+gatsby-source-lbry@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/gatsby-source-lbry/-/gatsby-source-lbry-1.1.0.tgz#78075e8e80fca6443ad7ce35a3fd0258c67989a9"
+  integrity sha512-1uvsNaXKdXSzdRNtegc+XgdbAN5w79t39CHM+OCicfXZdZgol89ffUZm7/vV0cb48+IfcGeiwAwlK0GfI2FvOA==
   dependencies:
     js-yaml "^4.1.0"
     markdown-it "^12.2.0"
